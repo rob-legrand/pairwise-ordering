@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+html {
+   box-sizing: border-box;
+}
+
+*, *:before, *:after {
+   box-sizing: inherit;
+}
+
+body {
+   align-items: center;
+   background-color: rgb(255, 245, 225);
+   display: flex;
+   flex-direction: column;
+   font-family: Georgia, serif;
+   justify-content: center;
+}
+
+h1 {
+   color: rgb(30, 60, 90);
+   text-align: center;
+}
+
+.pairwise-input {
+   align-items: center;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   padding: 10px;
+}
+
+.choice {
+   background-color: rgb(255, 255, 255);
+   align-items: center;
+   border: 1px solid rgb(135, 135, 135);
+   cursor: pointer;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   margin: 20px;
+   padding: 10px;
+}
+
+.pairwise-choice {
+   align-items: center;
+   border: 1px solid rgb(135, 135, 135);
+   cursor: pointer;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   margin: 20px;
+   padding: 10px;
+}
+
+.pairwise-choice .county-name {
+   margin: 0px 5px;
+}
+
+.counties-list {
+   margin: 10px;
+}
+
+.counties-list li {
+   border: 1px solid rgb(135, 135, 135);
+}
+
+.counties-list .county {
+   align-items: center;
+   display: flex;
+   justify-content: flex-start;
+}
+
+.counties-list .county-name {
+   margin: 0px 5px;
+}
+
+.counties-list .county-rank {
+   font-family: Inconsolata, Consolas, "Andale Mono", AndaleMono, monospace;
+   margin: 0px 5px;
+}
+
+.counties-points-table {
+   align-items: center;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   margin: 5px;
+}
