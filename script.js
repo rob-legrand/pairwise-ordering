@@ -11,17 +11,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const util = Object.freeze({
          addPrecedesRelationship: function (preorder, elementA, elementB) {
-            preorder[elementA][elementB].precedes = true;
-            // if x <= a and b <= y, then x <= y
-            preorder.forEach(function (rowX, elementX) {
-               if (preorder[elementX][elementA].precedes) {
-                  rowX.forEach(function (ignore, elementY) {
-                     if (preorder[elementB][elementY].precedes) {
-                        preorder[elementX][elementY].precedes = true;
-                     }
-                  });
-               }
-            });
+            if (!preorder[elementA][elementB].precedes) {
+               preorder[elementA][elementB].precedes = true;
+               // if x <= a and b <= y, then x <= y
+               preorder.forEach(function (rowX, elementX) {
+                  if (preorder[elementX][elementA].precedes) {
+                     rowX.forEach(function (ignore, elementY) {
+                        if (preorder[elementB][elementY].precedes) {
+                           preorder[elementX][elementY].precedes = true;
+                        }
+                     });
+                  }
+               });
+            }
             return preorder;
          },
          createUnfrozenPreorder: (oldPreorder) => (
@@ -79,15 +81,21 @@ document.addEventListener('DOMContentLoaded', function () {
                return preorder;
             }
             unfrozenPreorder[element1][element2].numTimesCompared += 1;
-            return util.deepCopy(Object.freeze, unfrozenPreorder);
+//          return util.deepCopy(Object.freeze, unfrozenPreorder);
+            return unfrozenPreorder;
          },
-         createPreorder: (oldPreorder) => util.deepCopy(
-            Object.freeze,
-            util.createUnfrozenPreorder(
-               typeof oldPreorder === 'string'
-               ? JSON.parse(oldPreorder)
-               : oldPreorder
-            )
+//       createPreorder: (oldPreorder) => util.deepCopy(
+//          Object.freeze,
+//          util.createUnfrozenPreorder(
+//             typeof oldPreorder === 'string'
+//             ? JSON.parse(oldPreorder)
+//             : oldPreorder
+//          )
+//       ),
+         createPreorder: (oldPreorder) => util.createUnfrozenPreorder(
+            typeof oldPreorder === 'string'
+            ? JSON.parse(oldPreorder)
+            : oldPreorder
          ),
          getAllElementPairs: (numElements) => Array.from(
             {length: numElements},
@@ -172,7 +180,8 @@ document.addEventListener('DOMContentLoaded', function () {
                   }
                });
             });
-            return util.deepCopy(Object.freeze, unfrozenPreorder);
+//          return util.deepCopy(Object.freeze, unfrozenPreorder);
+            return unfrozenPreorder;
          },
          isEquivalentTo: (preorder, element1, element2) => (
             preorder[element1][element2].precedes
@@ -307,12 +316,12 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       document.querySelector('#start-over').addEventListener('click', function () {
-         preorder = po.createPreorder(24);
+         preorder = po.createPreorder(countiesInfo.length);
          nextElementsForComparison = po.getNextElementsForComparison(preorder);
          updatePairwiseOrdering();
       });
 
-      preorder = po.createPreorder(localStorage.getItem('pairwise-ordering') ?? 24);
+      preorder = po.createPreorder(localStorage.getItem('pairwise-ordering') ?? countiesInfo.length);
       nextElementsForComparison = po.getNextElementsForComparison(preorder);
       updatePairwiseOrdering();
    }());
