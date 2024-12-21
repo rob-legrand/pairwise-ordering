@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
    'use strict';
 
    const countiesInfo = counties.createInfo();
+// const countiesInfo = counties.createInfo().filter(
+//    (county) => county.country === 'Wales'
+// );
 
    const po = (function () {
 
@@ -121,13 +124,29 @@ document.addEventListener('DOMContentLoaded', function () {
                   (elementPair) => preorder[elementPair[0]][elementPair[1]].numTimesCompared
                )
             );
-            return consideredElementPairs.filter(
+            const priorityElementPairs = consideredElementPairs.filter(
                (elementPair) => preorder[elementPair[0]][elementPair[1]].numTimesCompared === minNumTimesCompared
             );
+            return priorityElementPairs;
+//          const minClassLevelDistance = Math.min(
+//             ...priorityElementPairs.map(
+//                (elementPair) => Math.abs(
+//                   countiesInfo[elementPair[0]].classLevel
+//                   - countiesInfo[elementPair[1]].classLevel
+//                )
+//             )
+//          );
+//          return priorityElementPairs.filter(
+//             (elementPair) => Math.abs(
+//                countiesInfo[elementPair[0]].classLevel
+//                - countiesInfo[elementPair[1]].classLevel
+//             ) === minClassLevelDistance
+//          );
          },
          getNextElementsForComparison: function (preorder) {
             const bestAvailableElementPairs = self.getBestAvailableElementPairs(preorder);
             return bestAvailableElementPairs[Math.floor(Math.random() * bestAvailableElementPairs.length)];
+//          return bestAvailableElementPairs[0];
          },
          getNumElementsGreaterThan: (preorder, element) => (
             preorder.filter(
@@ -159,6 +178,14 @@ document.addEventListener('DOMContentLoaded', function () {
                      self.getNumElementsGreaterThan(totalOrder, element)
                      - self.getNumElementsLessThan(totalOrder, element)
                   ) === score
+               ).sort(
+                  (a, b) => (
+                     (self.getNumElementsGreaterThan(preorder, a) + 1)
+                     / (self.getNumElementsGreaterThan(preorder, a) + self.getNumElementsLessThan(preorder, a) + 2)
+                  ) - (
+                     (self.getNumElementsGreaterThan(preorder, b) + 1)
+                     / (self.getNumElementsGreaterThan(preorder, b) + self.getNumElementsLessThan(preorder, b) + 2)
+                  )
                ).sort(
                   (a, b) => (
                      self.getNumElementsGreaterThan(preorder, a)
@@ -267,7 +294,11 @@ document.addEventListener('DOMContentLoaded', function () {
                }));
                const newCountyNameDiv = document.createElement('div');
                newCountyNameDiv.classList.add('county-name');
-               newCountyNameDiv.textContent = county.countyName;
+               newCountyNameDiv.textContent = (
+                  county.countyName + ' '
+                  + po.getNumElementsLessThan(preorder, countiesInfo.indexOf(county)) + '-'
+                  + po.getNumElementsGreaterThan(preorder, countiesInfo.indexOf(county))
+               ),
                newDiv.append(newCountyNameDiv);
                newLi.append(newDiv);
             });
@@ -315,7 +346,25 @@ document.addEventListener('DOMContentLoaded', function () {
          updatePairwiseOrdering();
       });
 
-      document.querySelector('#start-over').addEventListener('click', function () {
+      document.querySelector('#start-over-8').addEventListener('click', function () {
+         preorder = po.createPreorder(8);
+         nextElementsForComparison = po.getNextElementsForComparison(preorder);
+         updatePairwiseOrdering();
+      });
+
+      document.querySelector('#start-over-16').addEventListener('click', function () {
+         preorder = po.createPreorder(16);
+         nextElementsForComparison = po.getNextElementsForComparison(preorder);
+         updatePairwiseOrdering();
+      });
+
+      document.querySelector('#start-over-24').addEventListener('click', function () {
+         preorder = po.createPreorder(24);
+         nextElementsForComparison = po.getNextElementsForComparison(preorder);
+         updatePairwiseOrdering();
+      });
+
+      document.querySelector('#start-over-all').addEventListener('click', function () {
          preorder = po.createPreorder(countiesInfo.length);
          nextElementsForComparison = po.getNextElementsForComparison(preorder);
          updatePairwiseOrdering();
