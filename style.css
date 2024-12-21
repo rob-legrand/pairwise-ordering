@@ -58,11 +58,13 @@ h1 {
 }
 
 .counties-list {
+   list-style-type: none;
    margin: 10px;
 }
 
 .counties-list li {
    border: 1px solid rgb(135, 135, 135);
+   margin: 1px;
 }
 
 .counties-list .county {

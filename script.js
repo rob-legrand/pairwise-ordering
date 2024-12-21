@@ -241,70 +241,71 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const updatePairwiseOrdering = function () {
          localStorage.setItem('pairwise-ordering', JSON.stringify(preorder));
-         const outputDiv = document.querySelector('#output');
-         choiceDivs.forEach(function (choiceDiv) {
-            [...choiceDiv.childNodes].forEach(function (childNode) {
-               childNode.remove();
-            });
-         });
-         [...outputDiv.childNodes].forEach(function (childNode) {
-            childNode.remove();
-         });
          if (!po.isTotalPreorder(preorder)) {
             document.querySelector('#instructions').textContent = 'Which do you prefer?';
             document.querySelector('#pairwise-input').style.display = '';
             choiceDivs.forEach(function (choiceDiv, whichChoice) {
-               choiceDiv.append(counties.createCanvas({
-                  colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
-                  height: 120 * 2,
-                  isHorizontal: true,
-                  width: 144 * 2
-               }));
                const countyNameDiv = document.createElement('div');
                countyNameDiv.classList.add('county-name');
                countyNameDiv.textContent = countiesInfo[nextElementsForComparison[whichChoice]].countyName;
-               choiceDiv.append(countyNameDiv);
+               choiceDiv.replaceChildren(
+                  counties.createCanvas({
+                     colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
+                     height: 120 * 2,
+                     isHorizontal: true,
+                     width: 144 * 2
+                  }),
+                  countyNameDiv
+               );
             });
          } else {
             document.querySelector('#instructions').textContent = 'Final ranking:';
             document.querySelector('#pairwise-input').style.display = 'none';
+            choiceDivs.forEach(function (choiceDiv) {
+               choiceDiv.replaceChildren();
+            });
          }
          const newPointsTableUl = document.createElement('ul');
          newPointsTableUl.classList.add('counties-list');
-         po.getOrderedElements(preorder).forEach(function (group) {
-            const newLi = document.createElement('li');
-            group.map(
-               (element) => countiesInfo[element]
-            ).forEach(function (county) {
-               const newDiv = document.createElement('div');
-               newDiv.classList.add('county');
-               newDiv.append(counties.createCanvas({
-                  colours: county.colours,
-                  height: (
-                     po.isTotalPreorder(preorder)
-                     ? 40
-                     : 20
-                  ),
-                  isHorizontal: true,
-                  width: (
-                     po.isTotalPreorder(preorder)
-                     ? 40
-                     : 20
-                  )
-               }));
-               const newCountyNameDiv = document.createElement('div');
-               newCountyNameDiv.classList.add('county-name');
-               newCountyNameDiv.textContent = (
-                  county.countyName + ' '
-                  + po.getNumElementsLessThan(preorder, countiesInfo.indexOf(county)) + '-'
-                  + po.getNumElementsGreaterThan(preorder, countiesInfo.indexOf(county))
-               ),
-               newDiv.append(newCountyNameDiv);
-               newLi.append(newDiv);
-            });
-            newPointsTableUl.append(newLi);
-         });
-         outputDiv.append(newPointsTableUl);
+         newPointsTableUl.replaceChildren(
+            ...po.getOrderedElements(preorder).map(function (group) {
+               const newLi = document.createElement('li');
+               newLi.replaceChildren(
+                  ...group.map(function (element) {
+                     const county = countiesInfo[element];
+                     const newDiv = document.createElement('div');
+                     newDiv.classList.add('county');
+                     const newCountyNameDiv = document.createElement('div');
+                     newCountyNameDiv.classList.add('county-name');
+                     newCountyNameDiv.textContent = (
+                        county.countyName + ' '
+                        + po.getNumElementsLessThan(preorder, element) + '-'
+                        + po.getNumElementsGreaterThan(preorder, element)
+                     );
+                     newDiv.replaceChildren(
+                        counties.createCanvas({
+                           colours: county.colours,
+                           height: (
+                              po.isTotalPreorder(preorder)
+                              ? 40
+                              : 20
+                           ),
+                           isHorizontal: true,
+                           width: (
+                              po.isTotalPreorder(preorder)
+                              ? 40
+                              : 20
+                           )
+                        }),
+                        newCountyNameDiv
+                     );
+                     return newDiv;
+                  })
+               );
+               return newLi;
+            })
+         );
+         document.querySelector('#output').replaceChildren(newPointsTableUl);
       };
 
       choiceDivs.forEach(function (choiceDiv, whichChoice) {
