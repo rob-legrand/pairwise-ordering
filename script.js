@@ -247,7 +247,12 @@ document.addEventListener('DOMContentLoaded', function () {
             choiceDivs.forEach(function (choiceDiv, whichChoice) {
                const countyNameDiv = document.createElement('div');
                countyNameDiv.classList.add('county-name');
-               countyNameDiv.textContent = countiesInfo[nextElementsForComparison[whichChoice]].countyName;
+//             countyNameDiv.textContent = countiesInfo[nextElementsForComparison[whichChoice]].countyName;
+               countyNameDiv.textContent = (
+                  countiesInfo[nextElementsForComparison[whichChoice]].classLevel <= 3
+                  ? countiesInfo[nextElementsForComparison[whichChoice]].classLevel
+                  : 'x'
+               ) + ' ' + countiesInfo[nextElementsForComparison[whichChoice]].countyName;
                choiceDiv.replaceChildren(
                   counties.createCanvas({
                      colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
@@ -372,6 +377,40 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       preorder = po.createPreorder(localStorage.getItem('pairwise-ordering') ?? countiesInfo.length);
+//    const pairsForComparison = preorder.map(
+//       (ignore, leftIndex) => preorder.map(
+//          (ignore, rightIndex) => [leftIndex, rightIndex]
+//       )
+//    ).flat(1).filter(
+//       (elementsForComparison) => elementsForComparison[0] < elementsForComparison[1]
+//    );
+//    const topOrder = [
+//       'sus', 'ken', 'sur', 'not', 'yrk', 'mdx', 'lan', 'gls',
+//       'drb', 'ham', 'som', 'stf', 'ess', 'lei', 'che', 'war',
+//       'nbl', 'hrt', 'nfk', 'nth', 'dev', 'dur', 'lin', 'gla'
+//    ];
+//    pairsForComparison.forEach(function (nextElementsForComparison) {
+//       const leftClassLevel = countiesInfo[nextElementsForComparison[0]].classLevel;
+//       const rightClassLevel = countiesInfo[nextElementsForComparison[1]].classLevel;
+//       if (leftClassLevel <= 3 || rightClassLevel <= 3) {
+//          preorder = po.addPairwiseComparison(
+//             preorder,
+//             nextElementsForComparison[0],
+//             (
+//                (
+//                   leftClassLevel < rightClassLevel
+//                   || (
+//                      leftClassLevel === rightClassLevel
+//                      && topOrder.indexOf(countiesInfo[nextElementsForComparison[0]].countyCode) < topOrder.indexOf(countiesInfo[nextElementsForComparison[1]].countyCode)
+//                   )
+//                )
+//                ? '>='
+//                : '<='
+//             ),
+//             nextElementsForComparison[1]
+//          );
+//       }
+//    });
       nextElementsForComparison = po.getNextElementsForComparison(preorder);
       updatePairwiseOrdering();
    }());
