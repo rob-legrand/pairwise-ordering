@@ -5,10 +5,17 @@ import {counties} from '../county-cricket-colours/counties.js';
 document.addEventListener('DOMContentLoaded', function () {
    'use strict';
 
-   const countiesInfo = counties.createInfo();
-// const countiesInfo = counties.createInfo().filter(
-//    (county) => county.country === 'Wales'
-// );
+   const useCountiesFromOnlyOneCountry = false;
+// const useCountiesFromOnlyOneCountry = 'England';
+// const useCountiesFromOnlyOneCountry = 'Wales';
+// const useCountiesFromOnlyOneCountry = 'Scotland';
+
+   const countiesInfo = counties.createInfo().filter(
+      (county) => (
+         typeof useCountiesFromOnlyOneCountry !== 'string'
+         || county.country === useCountiesFromOnlyOneCountry
+      )
+   );
 
    const po = (function () {
 
@@ -247,12 +254,10 @@ document.addEventListener('DOMContentLoaded', function () {
             choiceDivs.forEach(function (choiceDiv, whichChoice) {
                const countyNameDiv = document.createElement('div');
                countyNameDiv.classList.add('county-name');
-//             countyNameDiv.textContent = countiesInfo[nextElementsForComparison[whichChoice]].countyName;
                countyNameDiv.textContent = (
-                  countiesInfo[nextElementsForComparison[whichChoice]].classLevel <= 3
-                  ? countiesInfo[nextElementsForComparison[whichChoice]].classLevel
-                  : 'x'
-               ) + ' ' + countiesInfo[nextElementsForComparison[whichChoice]].countyName;
+                  countiesInfo[nextElementsForComparison[whichChoice]].classLevel + ' '
+                  + countiesInfo[nextElementsForComparison[whichChoice]].countyName
+               );
                choiceDiv.replaceChildren(
                   counties.createCanvas({
                      colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
@@ -283,7 +288,8 @@ document.addEventListener('DOMContentLoaded', function () {
                      const newCountyNameDiv = document.createElement('div');
                      newCountyNameDiv.classList.add('county-name');
                      newCountyNameDiv.textContent = (
-                        county.countyName + ' '
+                        county.classLevel + ' '
+                        + county.countyName + ' '
                         + po.getNumElementsLessThan(preorder, element) + '-'
                         + po.getNumElementsGreaterThan(preorder, element)
                      );
