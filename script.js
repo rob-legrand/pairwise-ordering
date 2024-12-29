@@ -376,6 +376,24 @@ document.addEventListener('DOMContentLoaded', function () {
          updatePairwiseOrdering();
       });
 
+      document.querySelector('#start-over-32').addEventListener('click', function () {
+         preorder = po.createPreorder(32);
+         nextElementsForComparison = po.getNextElementsForComparison(preorder);
+         updatePairwiseOrdering();
+      });
+
+      document.querySelector('#start-over-40').addEventListener('click', function () {
+         preorder = po.createPreorder(40);
+         nextElementsForComparison = po.getNextElementsForComparison(preorder);
+         updatePairwiseOrdering();
+      });
+
+      document.querySelector('#start-over-48').addEventListener('click', function () {
+         preorder = po.createPreorder(48);
+         nextElementsForComparison = po.getNextElementsForComparison(preorder);
+         updatePairwiseOrdering();
+      });
+
       document.querySelector('#start-over-all').addEventListener('click', function () {
          preorder = po.createPreorder(countiesInfo.length);
 //       const pairsForComparison = preorder.map(
