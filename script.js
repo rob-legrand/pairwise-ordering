@@ -17,6 +17,31 @@ document.addEventListener('DOMContentLoaded', function () {
       )
    );
 
+   const classLevels = [...new Set(
+      countiesInfo.map(
+         (county) => county.classLevel
+      ).filter(
+         (classLevel) => Number.isInteger(classLevel)
+      )
+   )].toSorted(
+      (x, y) => x - y
+   );
+   const numsCounties = classLevels.map(
+      (classLevel) => countiesInfo.filter(
+         (county) => county.classLevel <= classLevel
+      ).length
+   );
+   const countiesToCompareSelect = document.querySelector('#counties-to-compare');
+   countiesToCompareSelect.replaceChildren(
+      ...numsCounties.map(function (numCounties) {
+         const newOption = document.createElement('option');
+         newOption.setAttribute('value', numCounties.toString());
+         newOption.textContent = numCounties.toString();
+         return newOption;
+      })
+   );
+   document.querySelector('#counties-to-compare :last-child').setAttribute('selected', 'selected');
+
    const po = (function () {
 
       const util = Object.freeze({
@@ -174,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
                      - self.getNumElementsLessThan(totalOrder, element)
                   )
                )
-            )].sort(
+            )].toSorted(
                (a, b) => a - b
             );
             return numsElementsGreaterThan.map(
@@ -185,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
                      self.getNumElementsGreaterThan(totalOrder, element)
                      - self.getNumElementsLessThan(totalOrder, element)
                   ) === score
-               ).sort(
+               ).toSorted(
                   (a, b) => (
                      (self.getNumElementsGreaterThan(preorder, a) + 1)
                      / (self.getNumElementsGreaterThan(preorder, a) + self.getNumElementsLessThan(preorder, a) + 2)
@@ -193,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
                      (self.getNumElementsGreaterThan(preorder, b) + 1)
                      / (self.getNumElementsGreaterThan(preorder, b) + self.getNumElementsLessThan(preorder, b) + 2)
                   )
-               ).sort(
+               ).toSorted(
                   (a, b) => (
                      self.getNumElementsGreaterThan(preorder, a)
                      - self.getNumElementsLessThan(preorder, a)
@@ -358,44 +383,13 @@ document.addEventListener('DOMContentLoaded', function () {
          updatePairwiseOrdering();
       });
 
-      document.querySelector('#start-over-8').addEventListener('click', function () {
-         preorder = po.createPreorder(8);
-         nextElementsForComparison = po.getNextElementsForComparison(preorder);
-         updatePairwiseOrdering();
-      });
-
-      document.querySelector('#start-over-16').addEventListener('click', function () {
-         preorder = po.createPreorder(16);
-         nextElementsForComparison = po.getNextElementsForComparison(preorder);
-         updatePairwiseOrdering();
-      });
-
-      document.querySelector('#start-over-24').addEventListener('click', function () {
-         preorder = po.createPreorder(24);
-         nextElementsForComparison = po.getNextElementsForComparison(preorder);
-         updatePairwiseOrdering();
-      });
-
-      document.querySelector('#start-over-32').addEventListener('click', function () {
-         preorder = po.createPreorder(32);
-         nextElementsForComparison = po.getNextElementsForComparison(preorder);
-         updatePairwiseOrdering();
-      });
-
-      document.querySelector('#start-over-40').addEventListener('click', function () {
-         preorder = po.createPreorder(40);
-         nextElementsForComparison = po.getNextElementsForComparison(preorder);
-         updatePairwiseOrdering();
-      });
-
-      document.querySelector('#start-over-48').addEventListener('click', function () {
-         preorder = po.createPreorder(48);
-         nextElementsForComparison = po.getNextElementsForComparison(preorder);
-         updatePairwiseOrdering();
-      });
-
-      document.querySelector('#start-over-all').addEventListener('click', function () {
-         preorder = po.createPreorder(countiesInfo.length);
+      document.querySelector('#start-over').addEventListener('click', function () {
+         const numCountiesToCompare = Number(
+            countiesToCompareSelect.options[
+               countiesToCompareSelect.selectedIndex
+            ].value
+         );
+         preorder = po.createPreorder(numCountiesToCompare);
 //       const pairsForComparison = preorder.map(
 //          (ignore, leftIndex) => preorder.map(
 //             (ignore, rightIndex) => [leftIndex, rightIndex]
