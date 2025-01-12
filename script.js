@@ -84,21 +84,29 @@ document.addEventListener('DOMContentLoaded', function () {
             )
             : []
          ),
-         deepCopy: (func, oldThing) => func(
-            Array.isArray(oldThing)
-            ? oldThing.map(
-               (currentValue) => util.deepCopy(func, currentValue)
-            )
-            : typeof oldThing === 'object'
-            ? Object.keys(oldThing).reduce(
-               function (newObject, prop) {
-                  newObject[prop] = util.deepCopy(func, oldThing[prop]);
-                  return newObject;
-               },
-               {}
-            )
-            : oldThing
-         )
+//       deepCopy: (oldThing, func) => (
+//          // Create a new object, deeply copied, with func applied at each level.
+//          typeof func === 'function'
+//          ? func
+//          : (x) => x
+//       )(
+//          Array.isArray(oldThing)
+//          // If it's an array, use map directly.
+//          ? oldThing.map(
+//             (x) => util.deepCopy(x, func)
+//          )
+//          : typeof oldThing === 'object'
+//          // If it's a non-array object, we must be less direct.
+//          ? Object.fromEntries(
+//             Object.entries(oldThing).map(
+//                (x) => [x[0], util.deepCopy(x[1], func)]
+//             )
+//          )
+//          // Otherwise, no recursion is required.
+//          : oldThing
+//       )
+         // For the sake of efficiency, don't actually do any deep copying (or freezing).
+         deepCopy: (oldThing) => oldThing
       });
 
       const self = Object.freeze({
@@ -116,21 +124,15 @@ document.addEventListener('DOMContentLoaded', function () {
                return preorder;
             }
             unfrozenPreorder[element1][element2].numTimesCompared += 1;
-//          return util.deepCopy(Object.freeze, unfrozenPreorder);
-            return unfrozenPreorder;
+            return util.deepCopy(unfrozenPreorder, Object.freeze);
          },
-//       createPreorder: (oldPreorder) => util.deepCopy(
-//          Object.freeze,
-//          util.createUnfrozenPreorder(
-//             typeof oldPreorder === 'string'
-//             ? JSON.parse(oldPreorder)
-//             : oldPreorder
-//          )
-//       ),
-         createPreorder: (oldPreorder) => util.createUnfrozenPreorder(
-            typeof oldPreorder === 'string'
-            ? JSON.parse(oldPreorder)
-            : oldPreorder
+         createPreorder: (oldPreorder) => util.deepCopy(
+            util.createUnfrozenPreorder(
+               typeof oldPreorder === 'string'
+               ? JSON.parse(oldPreorder)
+               : oldPreorder
+            ),
+            Object.freeze
          ),
          getAllElementPairs: (numElements) => Array.from(
             {length: numElements},
@@ -239,8 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   }
                });
             });
-//          return util.deepCopy(Object.freeze, unfrozenPreorder);
-            return unfrozenPreorder;
+            return util.deepCopy(unfrozenPreorder, Object.freeze);
          },
          isEquivalentTo: (preorder, element1, element2) => (
             preorder[element1][element2].precedes
