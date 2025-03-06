@@ -162,25 +162,10 @@ document.addEventListener('DOMContentLoaded', function () {
                (elementPair) => preorder[elementPair[0]][elementPair[1]].numTimesCompared === minNumTimesCompared
             );
             return priorityElementPairs;
-//          const minClassLevelDistance = Math.min(
-//             ...priorityElementPairs.map(
-//                (elementPair) => Math.abs(
-//                   countiesInfo[elementPair[0]].classLevel
-//                   - countiesInfo[elementPair[1]].classLevel
-//                )
-//             )
-//          );
-//          return priorityElementPairs.filter(
-//             (elementPair) => Math.abs(
-//                countiesInfo[elementPair[0]].classLevel
-//                - countiesInfo[elementPair[1]].classLevel
-//             ) === minClassLevelDistance
-//          );
          },
          getNextElementsForComparison: function (preorder) {
             const bestAvailableElementPairs = self.getBestAvailableElementPairs(preorder);
             return bestAvailableElementPairs[Math.floor(Math.random() * bestAvailableElementPairs.length)];
-//          return bestAvailableElementPairs[0];
          },
          getNumElementsGreaterThan: (preorder, element) => (
             preorder.filter(
@@ -391,40 +376,6 @@ document.addEventListener('DOMContentLoaded', function () {
             ].value
          );
          preorder = po.createPreorder(numCountiesToCompare);
-//       const pairsForComparison = preorder.map(
-//          (ignore, leftIndex) => preorder.map(
-//             (ignore, rightIndex) => [leftIndex, rightIndex]
-//          )
-//       ).flat(1).filter(
-//          (elementsForComparison) => elementsForComparison[0] < elementsForComparison[1]
-//       );
-//       const topOrder = [
-//          'sus', 'ken', 'sur', 'not', 'yrk', 'mdx', 'lan', 'gls',
-//          'drb', 'ham', 'som', 'stf', 'ess', 'lei', 'che', 'war',
-//          'nbl', 'hrt', 'nfk', 'nth', 'dev', 'dur', 'lin', 'gla'
-//       ];
-//       pairsForComparison.forEach(function (elementsForComparison) {
-//          const leftClassLevel = countiesInfo[elementsForComparison[0]].classLevel;
-//          const rightClassLevel = countiesInfo[elementsForComparison[1]].classLevel;
-//          if (leftClassLevel <= 3 || rightClassLevel <= 3) {
-//             preorder = po.addPairwiseComparison(
-//                preorder,
-//                elementsForComparison[0],
-//                (
-//                   (
-//                      leftClassLevel < rightClassLevel
-//                      || (
-//                         leftClassLevel === rightClassLevel
-//                         && topOrder.indexOf(countiesInfo[elementsForComparison[0]].countyCode) < topOrder.indexOf(countiesInfo[elementsForComparison[1]].countyCode)
-//                      )
-//                   )
-//                   ? '>='
-//                   : '<='
-//                ),
-//                elementsForComparison[1]
-//             );
-//          }
-//       });
          nextElementsForComparison = po.getNextElementsForComparison(preorder);
          updatePairwiseOrdering();
       });
