@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
-html {
+:root {
+   --monospace: Inconsolata, Consolas, "Andale Mono", AndaleMono, monospace;
+   --serif: Georgia, Didot, Palatino, "Palatino Linotype", "Book Antiqua", Garamond, "Goudy Old Style", Perpetua, Baskerville, Gentium, serif;
    box-sizing: border-box;
 }
 
@@ -13,7 +15,7 @@ body {
    background-color: rgb(255, 245, 225);
    display: flex;
    flex-direction: column;
-   font-family: Georgia, serif;
+   font-family: var(--serif);
    justify-content: center;
 }
 
@@ -94,7 +96,7 @@ h1 {
 }
 
 .counties-list .county-rank {
-   font-family: Inconsolata, Consolas, "Andale Mono", AndaleMono, monospace;
+   font-family: var(--monospace);
    margin: 0px 5px;
 }
 
