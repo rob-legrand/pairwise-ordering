@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 :root {
-   --monospace: Inconsolata, Consolas, "Andale Mono", AndaleMono, monospace;
    --serif: Georgia, Didot, Palatino, "Palatino Linotype", "Book Antiqua", Garamond, "Goudy Old Style", Perpetua, Baskerville, Gentium, serif;
    box-sizing: border-box;
 }
@@ -92,11 +91,6 @@ h1 {
 }
 
 .counties-list .county-name {
-   margin: 0px 5px;
-}
-
-.counties-list .county-rank {
-   font-family: var(--monospace);
    margin: 0px 5px;
 }
 
