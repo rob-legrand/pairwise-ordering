@@ -5,6 +5,7 @@ import {counties} from '../county-cricket-colours/counties.js';
 document.addEventListener('DOMContentLoaded', function () {
    'use strict';
 
+   const defaultLastClassLevel = 1;
    const useCountiesFromOnlyOneCountry = false;
 // const useCountiesFromOnlyOneCountry = 'England';
 // const useCountiesFromOnlyOneCountry = 'Wales';
@@ -40,7 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
          return newOption;
       })
    );
-   document.querySelector('#counties-to-compare :last-child').setAttribute('selected', 'selected');
+   document.querySelector(
+      '#counties-to-compare :nth-child(' + defaultLastClassLevel + ')'
+   ).setAttribute('selected', 'selected');
 
    const po = (function () {
 
@@ -380,7 +383,9 @@ document.addEventListener('DOMContentLoaded', function () {
          updatePairwiseOrdering();
       });
 
-      preorder = po.createPreorder(localStorage.getItem('pairwise-ordering') ?? countiesInfo.length);
+      preorder = po.createPreorder(
+         localStorage.getItem('pairwise-ordering') ?? numsCounties[classLevels.indexOf(defaultLastClassLevel)]
+      );
       nextElementsForComparison = po.getNextElementsForComparison(preorder);
       updatePairwiseOrdering();
    }());
