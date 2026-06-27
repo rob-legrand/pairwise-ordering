@@ -305,10 +305,9 @@ document.addEventListener('DOMContentLoaded', function () {
             choiceDivs.forEach(function (choiceDiv, whichChoice) {
                const countyNameDiv = document.createElement('div');
                countyNameDiv.classList.add('county-name');
-               countyNameDiv.textContent = (
-                  countiesInfo[nextElementsForComparison[whichChoice]].classLevel + ' '
-                  + countiesInfo[nextElementsForComparison[whichChoice]].countyName
-               );
+               countyNameDiv.textContent = countiesInfo[
+                  nextElementsForComparison[whichChoice]
+               ].countyName;
                choiceDiv.replaceChildren(
                   counties.createCanvas({
                      colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
