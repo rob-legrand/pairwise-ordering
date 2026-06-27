@@ -1,4 +1,4 @@
-/*jslint browser */
+/*jslint browser, maxlen: 100 */
 
 import {counties} from '/county-cricket-colours/counties.js';
 
@@ -117,12 +117,28 @@ document.addEventListener('DOMContentLoaded', function () {
             let unfrozenPreorder;
             unfrozenPreorder = util.createUnfrozenPreorder(preorder);
             if (comparison === '<=') {
-               unfrozenPreorder = util.addPrecedesRelationship(unfrozenPreorder, element1, element2);
+               unfrozenPreorder = util.addPrecedesRelationship(
+                  unfrozenPreorder,
+                  element1,
+                  element2
+               );
             } else if (comparison === '=') {
-               unfrozenPreorder = util.addPrecedesRelationship(unfrozenPreorder, element1, element2);
-               unfrozenPreorder = util.addPrecedesRelationship(unfrozenPreorder, element2, element1);
+               unfrozenPreorder = util.addPrecedesRelationship(
+                  unfrozenPreorder,
+                  element1,
+                  element2
+               );
+               unfrozenPreorder = util.addPrecedesRelationship(
+                  unfrozenPreorder,
+                  element2,
+                  element1
+               );
             } else if (comparison === '>=') {
-               unfrozenPreorder = util.addPrecedesRelationship(unfrozenPreorder, element2, element1);
+               unfrozenPreorder = util.addPrecedesRelationship(
+                  unfrozenPreorder,
+                  element2,
+                  element1
+               );
             } else if (comparison !== '?') {
                return preorder;
             }
@@ -162,13 +178,19 @@ document.addEventListener('DOMContentLoaded', function () {
                )
             );
             const priorityElementPairs = consideredElementPairs.filter(
-               (elementPair) => preorder[elementPair[0]][elementPair[1]].numTimesCompared === minNumTimesCompared
+               (elementPair) => preorder[
+                  elementPair[0]
+               ][
+                  elementPair[1]
+               ].numTimesCompared === minNumTimesCompared
             );
             return priorityElementPairs;
          },
          getNextElementsForComparison: function (preorder) {
             const bestAvailableElementPairs = self.getBestAvailableElementPairs(preorder);
-            return bestAvailableElementPairs[Math.floor(Math.random() * bestAvailableElementPairs.length)];
+            return bestAvailableElementPairs[
+               Math.floor(Math.random() * bestAvailableElementPairs.length)
+            ];
          },
          getNumElementsGreaterThan: (preorder, element) => (
             preorder.filter(
@@ -203,10 +225,16 @@ document.addEventListener('DOMContentLoaded', function () {
                ).toSorted(
                   (a, b) => (
                      (self.getNumElementsGreaterThan(preorder, a) + 1)
-                     / (self.getNumElementsGreaterThan(preorder, a) + self.getNumElementsLessThan(preorder, a) + 2)
+                     / (
+                        self.getNumElementsGreaterThan(preorder, a)
+                        + self.getNumElementsLessThan(preorder, a) + 2
+                     )
                   ) - (
                      (self.getNumElementsGreaterThan(preorder, b) + 1)
-                     / (self.getNumElementsGreaterThan(preorder, b) + self.getNumElementsLessThan(preorder, b) + 2)
+                     / (
+                        self.getNumElementsGreaterThan(preorder, b)
+                        + self.getNumElementsLessThan(preorder, b) + 2
+                     )
                   )
                ).toSorted(
                   (a, b) => (
@@ -225,7 +253,12 @@ document.addEventListener('DOMContentLoaded', function () {
             unfrozenPreorder.forEach(function (rowX, elementX) {
                rowX.forEach(function (ignore, elementY) {
                   if (self.isIncomparableTo(preorder, elementX, elementY)) {
-                     unfrozenPreorder = self.addPairwiseComparison(unfrozenPreorder, elementX, '=', elementY);
+                     unfrozenPreorder = self.addPairwiseComparison(
+                        unfrozenPreorder,
+                        elementX,
+                        '=',
+                        elementY
+                     );
                   }
                });
             });
@@ -235,7 +268,11 @@ document.addEventListener('DOMContentLoaded', function () {
             preorder[element1][element2].precedes
             && preorder[element2][element1].precedes
          ),
-         isGreaterThan: (preorder, element1, element2) => self.isLessThan(preorder, element2, element1),
+         isGreaterThan: (preorder, element1, element2) => self.isLessThan(
+            preorder,
+            element2,
+            element1
+         ),
          isIncomparableTo: (preorder, element1, element2) => (
             !preorder[element1][element2].precedes
             && !preorder[element2][element1].precedes
@@ -384,7 +421,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       preorder = po.createPreorder(
-         localStorage.getItem('pairwise-ordering') ?? numsCounties[classLevels.indexOf(defaultLastClassLevel)]
+         localStorage.getItem('pairwise-ordering')
+         ?? numsCounties[classLevels.indexOf(defaultLastClassLevel)]
       );
       nextElementsForComparison = po.getNextElementsForComparison(preorder);
       updatePairwiseOrdering();
