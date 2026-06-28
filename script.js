@@ -34,12 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
    );
    const countiesToCompareSelect = document.querySelector('#counties-to-compare');
    countiesToCompareSelect.replaceChildren(
-      ...numsCounties.map(function (numCounties) {
-         const newOption = document.createElement('option');
-         newOption.setAttribute('value', numCounties.toString());
-         newOption.textContent = numCounties.toString();
-         return newOption;
-      })
+      ...numsCounties.map(
+         (numCounties) => counties.createElement({
+            elementType: 'option',
+            attributes: {value: numCounties.toString()},
+            children: [numCounties.toString()]
+         })
+      )
    );
    document.querySelector(
       '#counties-to-compare :nth-child(' + defaultLastClassLevel + ')'
