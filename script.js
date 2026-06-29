@@ -304,11 +304,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('#instructions').textContent = 'Which do you prefer?';
             document.querySelector('#pairwise-input').style.display = '';
             choiceDivs.forEach(function (choiceDiv, whichChoice) {
-               const countyNameDiv = document.createElement('div');
-               countyNameDiv.classList.add('county-name');
-               countyNameDiv.textContent = countiesInfo[
-                  nextElementsForComparison[whichChoice]
-               ].countyName;
                choiceDiv.replaceChildren(
                   counties.createCanvas({
                      colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
@@ -316,7 +311,12 @@ document.addEventListener('DOMContentLoaded', function () {
                      isHorizontal: true,
                      width: 144 * 2
                   }),
-                  countyNameDiv
+                  counties.createElement({
+                     classList: ['county-name'],
+                     children: [
+                        countiesInfo[nextElementsForComparison[whichChoice]].countyName
+                     ]
+                  })
                );
             });
          } else {
