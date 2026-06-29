@@ -332,37 +332,36 @@ document.addEventListener('DOMContentLoaded', function () {
             ...po.getOrderedElements(preorder).map(function (group) {
                const newLi = document.createElement('li');
                newLi.replaceChildren(
-                  ...group.map(function (element) {
-                     const county = countiesInfo[element];
-                     const newDiv = document.createElement('div');
-                     newDiv.classList.add('county');
-                     const newCountyNameDiv = document.createElement('div');
-                     newCountyNameDiv.classList.add('county-name');
-                     newCountyNameDiv.textContent = (
-                        county.classLevel + ' '
-                        + county.countyName + ' '
-                        + po.getNumElementsLessThan(preorder, element) + '-'
-                        + po.getNumElementsGreaterThan(preorder, element)
-                     );
-                     newDiv.replaceChildren(
-                        counties.createCanvas({
-                           colours: county.colours,
-                           height: (
-                              po.isTotalPreorder(preorder)
-                              ? 40
-                              : 20
-                           ),
-                           isHorizontal: true,
-                           width: (
-                              po.isTotalPreorder(preorder)
-                              ? 40
-                              : 20
-                           )
-                        }),
-                        newCountyNameDiv
-                     );
-                     return newDiv;
-                  })
+                  ...group.map(
+                     (element) => counties.createElement({
+                        classList: ['county'],
+                        children: [
+                           counties.createCanvas({
+                              colours: countiesInfo[element].colours,
+                              height: (
+                                 po.isTotalPreorder(preorder)
+                                 ? 40
+                                 : 20
+                              ),
+                              isHorizontal: true,
+                              width: (
+                                 po.isTotalPreorder(preorder)
+                                 ? 40
+                                 : 20
+                              )
+                           }),
+                           counties.createElement({
+                              classList: ['county-name'],
+                              children: [
+                                 countiesInfo[element].classLevel + ' '
+                                 + countiesInfo[element].countyName + ' '
+                                 + po.getNumElementsLessThan(preorder, element) + '-'
+                                 + po.getNumElementsGreaterThan(preorder, element)
+                              ]
+                           })
+                        ]
+                     })
+                  )
                );
                return newLi;
             })
