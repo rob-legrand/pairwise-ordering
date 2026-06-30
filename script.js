@@ -329,42 +329,43 @@ document.addEventListener('DOMContentLoaded', function () {
          const newPointsTableUl = document.createElement('ul');
          newPointsTableUl.classList.add('counties-list');
          newPointsTableUl.replaceChildren(
-            ...po.getOrderedElements(preorder).map(function (group) {
-               const newLi = document.createElement('li');
-               newLi.replaceChildren(
-                  ...group.map(
-                     (element) => counties.createElement({
-                        classList: ['county'],
-                        children: [
-                           counties.createCanvas({
-                              colours: countiesInfo[element].colours,
-                              height: (
-                                 po.isTotalPreorder(preorder)
-                                 ? 40
-                                 : 20
-                              ),
-                              isHorizontal: true,
-                              width: (
-                                 po.isTotalPreorder(preorder)
-                                 ? 40
-                                 : 20
-                              )
-                           }),
-                           counties.createElement({
-                              classList: ['county-name'],
-                              children: [
-                                 countiesInfo[element].classLevel + ' '
-                                 + countiesInfo[element].countyName + ' '
-                                 + po.getNumElementsLessThan(preorder, element) + '-'
-                                 + po.getNumElementsGreaterThan(preorder, element)
-                              ]
-                           })
-                        ]
-                     })
-                  )
-               );
-               return newLi;
-            })
+            ...po.getOrderedElements(preorder).map(
+               (group) => counties.createElement({
+                  elementType: 'li',
+                  children: [
+                     ...group.map(
+                        (element) => counties.createElement({
+                           classList: ['county'],
+                           children: [
+                              counties.createCanvas({
+                                 colours: countiesInfo[element].colours,
+                                 height: (
+                                    po.isTotalPreorder(preorder)
+                                    ? 40
+                                    : 20
+                                 ),
+                                 isHorizontal: true,
+                                 width: (
+                                    po.isTotalPreorder(preorder)
+                                    ? 40
+                                    : 20
+                                 )
+                              }),
+                              counties.createElement({
+                                 classList: ['county-name'],
+                                 children: [
+                                    countiesInfo[element].classLevel + ' '
+                                    + countiesInfo[element].countyName + ' '
+                                    + po.getNumElementsLessThan(preorder, element) + '-'
+                                    + po.getNumElementsGreaterThan(preorder, element)
+                                 ]
+                              })
+                           ]
+                        })
+                     )
+                  ]
+               })
+            )
          );
          document.querySelector('#output').replaceChildren(newPointsTableUl);
       };
