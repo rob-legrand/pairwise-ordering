@@ -357,7 +357,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                     children: [
                                        countiesInfo[element].classLevel + ' '
                                        + countiesInfo[element].countyName + ' '
-                                       + po.getNumElementsLessThan(preorder, element) + '-'
+                                       + po.getNumElementsLessThan(preorder, element)
+                                       + '\u2013' // en dash
                                        + po.getNumElementsGreaterThan(preorder, element)
                                     ]
                                  })
