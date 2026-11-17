@@ -307,10 +307,11 @@ document.addEventListener('DOMContentLoaded', function () {
                choiceDiv.replaceChildren(
                   counties.createCanvas({
                      colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
+                     county: countiesInfo[nextElementsForComparison[whichChoice]],
                      height: 120 * 2,
                      isHorizontal: true,
                      width: 144 * 2,
-                     tooltip: countiesInfo[nextElementsForComparison[whichChoice]].countyName
+                     tooltipType: 'countyName'
                   }),
                   counties.createElement({
                      classList: ['county-name'],
@@ -341,6 +342,7 @@ document.addEventListener('DOMContentLoaded', function () {
                               children: [
                                  counties.createCanvas({
                                     colours: countiesInfo[element].colours,
+                                    county: countiesInfo[element],
                                     height: (
                                        po.isTotalPreorder(preorder)
                                        ? 40
@@ -352,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                        ? 40
                                        : 20
                                     ),
-                                    tooltip: countiesInfo[element].countyName
+                                    tooltipType: 'countyName'
                                  }),
                                  counties.createElement({
                                     classList: ['county-name'],
