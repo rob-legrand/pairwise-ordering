@@ -309,7 +309,8 @@ document.addEventListener('DOMContentLoaded', function () {
                      colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
                      height: 120 * 2,
                      isHorizontal: true,
-                     width: 144 * 2
+                     width: 144 * 2,
+                     tooltip: countiesInfo[nextElementsForComparison[whichChoice]].countyName
                   }),
                   counties.createElement({
                      classList: ['county-name'],
@@ -350,7 +351,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                        po.isTotalPreorder(preorder)
                                        ? 40
                                        : 20
-                                    )
+                                    ),
+                                    tooltip: countiesInfo[element].countyName
                                  }),
                                  counties.createElement({
                                     classList: ['county-name'],
