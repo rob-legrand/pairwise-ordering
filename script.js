@@ -306,7 +306,6 @@ document.addEventListener('DOMContentLoaded', function () {
             choiceDivs.forEach(function (choiceDiv, whichChoice) {
                choiceDiv.replaceChildren(
                   counties.createCanvas({
-                     colours: countiesInfo[nextElementsForComparison[whichChoice]].colours,
                      county: countiesInfo[nextElementsForComparison[whichChoice]],
                      height: 120 * 2,
                      isHorizontal: true,
@@ -341,7 +340,6 @@ document.addEventListener('DOMContentLoaded', function () {
                               classList: ['county'],
                               children: [
                                  counties.createCanvas({
-                                    colours: countiesInfo[element].colours,
                                     county: countiesInfo[element],
                                     height: (
                                        po.isTotalPreorder(preorder)
